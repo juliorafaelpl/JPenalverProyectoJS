@@ -1,0 +1,40 @@
+/* ESTILOS DEL HEADER */
+header {
+  #cabecera {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    z-index: 1;
+    padding: 20px;
+    align-items: center;
+    height: 100px;
+    background-color: $bgCabecera;
+    button {
+      gap: 10px;
+      @include botones;
+    }
+  }
+}
+
+/* ESTILOS DEL BODY */
+body{
+  background-color: $bgBody;
+  color: $fontColor;
+}
+
+/* ESTILOS DEL FOOTER */
+
+#pie {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100px;
+  background-color: $bgPie;
+  a {
+    text-decoration: none;
+    font-weight: bold;
+    color: $fontColor;
+  }
+}
+

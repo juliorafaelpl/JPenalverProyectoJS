@@ -1,0 +1,31 @@
+/* UTILITIES */
+
+/* backgrounds */
+$bgCabecera: #303841;
+$bgBody: #EEEEEE;
+$bgPie: #3A4750;
+$fontColor: white;
+
+@mixin botones{
+    background-color: #D72323;
+    color: white;
+    font-weight: bold;
+    width: 6rem;
+    height: 2.5rem;
+    &:hover{
+        transform: scale(0.9);
+    }
+}
+
+@mixin productCard{
+    background-color: #3A4750 ;
+    color: white;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 22px 22px 112px 22px;
+-moz-border-radius: 22px 22px 112px 22px;
+-webkit-border-radius: 22px 22px 112px 22px;
+border: 0px solid #000000;
+
+}
