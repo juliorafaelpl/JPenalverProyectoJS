@@ -1,239 +1,175 @@
-class Producto {
-  constructor(id, categoria, cantidad, img, nombre, precio) {
-    this.id = id;
-    this.categoria = categoria;
-    this.cantidad = cantidad;
-    this.img = img;
-    this.nombre = nombre;
-    this.precio = precio;
-  }
-}
-// creamos  productos
-const cheeseBurger = new Producto(
-  1,
-  "hamburguesas",
-  1,
-  "./img/american-burger.png",
-  "American Burger",
-  2100
-);
-const triLayer = new Producto(
-  2,
-  "hamburguesas",
-  1,
-  "./img/american-burger.png",
-  " 3Carnes Burger",
-  2200
-);
-const jamAndCheese = new Producto(
-  3,
-  "hamburguesas",
-  1,
-  "./img/american-burger.png",
-  "Napo Burger",
-  2250
-);
-const veggie = new Producto(
-  4,
-  "hamburguesas",
-  1,
-  "./img/american-burger.png",
-  "Veggie Burger",
-  3000
-);
-const agua = new Producto(
-  5,
-  "bebidas",
-  1,
-  "./img/agua-saborizada.png",
-  "Agua de Frutos Rojos",
-  300
-);
-const gaseosa = new Producto(
-  6,
-  "bebidas",
-  1,
-  "./img/agua-saborizada.png",
-  "Gasesosas",
-  350
-);
-const frosties = new Producto(
-  7,
-  "bebidas",
-  1,
-  "./img/agua-saborizada.png",
-  "Frosties",
-  800
-);
-const paleta = new Producto(
-  8,
-  "helados",
-  1,
-  "./img/KitKat.png",
-  "Paletas Frutales",
-  400
-);
-const cremoso = new Producto(
-  9,
-  "helados",
-  1,
-  "./img/KitKat.png",
-  "1/4kg Helado Cremoso",
-  900
-);
-const kitkat = new Producto(
-  10,
-  "helados",
-  1,
-  "./img/KitKat.png",
-  "Paletas de Helado Kitkat",
-  1200
-);
-  
-  // ARRAY  (LISTA DE PRODUCTOS)
-  let productos = [
-    cheeseBurger,
-    triLayer,
-    jamAndCheese,
-    veggie,
-    agua,
-    gaseosa,
-    frosties,
-    paleta,
-    cremoso,
-    kitkat,
-  ];
-  console.log(productos);
-  
+/* recuperar elementos del dom */
+const storeDiv = document.getElementById("tienda");
+const finishButton = document.getElementById("finalizar");
+let counterCart = document.getElementById('contadorCarrito')
+const contentCart = document.getElementById('contenedorCarrito') 
 
-
-//RENDERIZACIÓN
-
-const tienda = document.getElementById("tienda"); //contenedor-productos
-const contenedorCarrito = document.getElementById("carrito-contenedor");
-
-//Captación nodo para Modificación del contador del carrito
-
-const contadorCarrito = document.getElementById("contadorCarrito");
-
-//captación de nodo vaciar carrito
-const botonVaciar = document.getElementById("vaciar-carrito");
 
 //captación de nodos para la modificación de la cantidad en el carrito
-const cantidad = document.getElementById("cantidad");
-const cantidadTotal = document.getElementById("cantidadTotal");
+const quantityCart = document.getElementById("cantidad");
+const totalQuantity = document.getElementById("cantidadTotal");
 
 //totalización del carrito
 
-const precioTotal = document.getElementById("precioTotal");
+const totalPrice = document.getElementById("precioTotal");
 
-//CREACIÓN CARRITO
-let carrito = [];
+//Evento vaciar carrito en Modal
+const emptyBtn = document.getElementById("vaciarCarrito");
+emptyBtn.addEventListener("click", ()=>{
+   cart.length=0;
+   updateCart();
+})
 
-//LOCAL STORAGE
 
-document.addEventListener("DOMContentLoaded", () => {
-    if (localStorage.getItem("carrito")) {
-      carrito = JSON.parse(localStorage.getItem("carrito"));
-      actualizarCarrito();
-    }
-  });
-  
+/* función que ejecute el Fetch de todos los productos y consumo de API fakestore*/
 
-  //función vaciar carrito
-botonVaciar.addEventListener("click", () => {
-    carrito.length = 0;
-    actualizarCarrito();
-  });
-
-//Creación de las Tarjetas de Productos e inyección al HTML desde el JavaScript
-
-productos.forEach((producto) => {
-  const productCard = document.createElement("div"); //div
-  productCard.classList.add("producto");
-  productCard.innerHTML = `
-    <img src=${producto.img} class= "producto__img"alt= "${producto.categoria}">
-    <h3>${producto.nombre}</h3>
-    <p class="precioProducto">Precio:$ ${producto.precio}</p>
-    <button id="agregar${producto.id}" class="boton-agregar">Agregar <i class="fas fa-shopping-cart"></i></button>
-    `;
-
-  tienda.appendChild(productCard);
-
-  //se capta botón agregar producto
-  const boton = document.getElementById(`agregar${producto.id}`);
-  //on click, agrega al carrito
-  boton.addEventListener("click", () => {
-    //esta funcion ejecuta el agregar el carrito con la id del producto
-    agregarAlCarrito(producto.id);
-  });
-});
-
-//AGREGAR AL CARRITO
-const agregarAlCarrito = (prodId) => {
-  //verifica si existe el prdocuto y no duplica los items
-  const existe = carrito.some((prod) => prod.id === prodId);
-
-  if (existe) {
-    const prod = carrito.map(prod => {
-      //creamos un nuevo arreglo e iteramos sobre cada curso y cuando
-      // map encuentre cual es el q igual al que está agregado, le suma la cantidad
-      if (prod.id === prodId) {
-        //se actualiza la cantidad
-        prod.cantidad++
-      }
-    })
-  } else {
-    //EN CASO DE QUE NO ESTÉ, AGREGAMOS EL CURSO AL CARRITO
-    const item = productos.find((prod) => prod.id === prodId); //Trabajamos con las ID
-    //Una vez obtenida la ID, lo que haremos es hacerle un push para agregarlo al carrito
-    carrito.push(item);
-  }
-  //Va a buscar el item, agregarlo al carrito y llama a la funcion actualizarCarrito, que recorre
-  //el carrito y se ve.
-  actualizarCarrito(); //LLAMAMOS A LA FUNCION QUE CREAMOS EN EL TERCER PASO. CADA VEZ Q SE
-  //MODIFICA EL CARRITO
+const fetchProducts = async () => {
+  const productsAPI = await fetch("https://fakestoreapi.com/products");
+  const productsJson = await productsAPI.json();
+  //console.log(productsJson);
+  return productsJson;
 };
 
-//MODIFICACIÓN DEL MODAL CARRITO
 
-//eliminar del carrito
-const eliminarDelCarrito = (prodId) => {
-    const item = carrito.find((prod) => prod.id === prodId);
-    const indice = carrito.indexOf(item);
-    carrito.splice(indice, 1);
-    actualizarCarrito();
-    console.log(carrito);
+//función que ejecute el fetch de un solo producto
+
+const fetchOneproduct = async (id) => {
+    const productAPI = await fetch(`https://fakestoreapi.com/products/${id}`)
+    const productJson = await productAPI.json()
+    //console.log(productJson)
+    return productJson
   };
 
-const actualizarCarrito = () => {
-  //borrar el nodo
-  contenedorCarrito.innerHTML = "";
+
+/* función para renderizar productos */
+
+const renderProducts = async () => {
+  const products = await fetchProducts();
+  products.forEach((prod) => {
+    const {id, title, price, category, image } = prod; //destructuración de array
+    storeDiv.innerHTML += `
+        <div class="card"">
+        <img src="${image}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h4 class="card-title class="${category}">${title}</h4>
+    <p class="card-text">$ ${price}</p>
+    <div class="card-buttons">
+    <button id="${id}" onclick="addProduct(${id})">AGREGAR</button>
+    <button id="${id}" onclick="removeProduct(${id})">REMOVER</button>
+    </div>
+  </div>
+</div>
+`;
+  });
+};
+
+renderProducts();
+
+//creación de carrito
+let cart=[]
+
+//función agregar al carrito
+
+const addProduct= async(id)=>{
+    const product= await fetchOneproduct(id)
+    const searchProductCart= cart.find(prod=>prod.id === product.id)
+    if (!searchProductCart){
+        cart.push({
+                id:product.id,
+                name:product.title,
+                quantity:1,
+                price:product.price
+            })
+    } else {
+        searchProductCart.quantity++
+    }
+    messageAddProduct()
+    updateCart()
+    console.log(cart)
+}
+
+//función quitar cantidades de un producto del carrito
+
+const removeProduct= async (id)=>{
+    const searchProductCart= cart.find((prod)=> prod.id === id)
+    if (!searchProductCart){
+      messageNoProduct()
+    } else {
+        if (searchProductCart.quantity === 1){
+            cart = cart.filter((prod)=> prod.id !== id)
+        }else{
+            searchProductCart.quantity--
+        }
+        messageRemoveProduct()
+    }
+    updateCart()
+    console.log(cart)
+}
+
+
+
+//Mensaje Producto Agregado
+
+const messageAddProduct= ()=>{
+    Swal.fire({
+        text: 'Product Added',
+        timer: 1000
+      })
+}
+
+//Mensaje Producto Removido del Carrito
+
+const messageRemoveProduct= ()=>{
+    Swal.fire({
+        text: 'Product Removed',
+        timer: 1000
+      })
+}
+
+// Mensaje Error
+
+const messageNoProduct= ()=>{
+    Swal.fire({
+        text: 'You dont have this product in the cart',
+        timer: 1000
+      })
+}
+
+
+
+//función actualizar carrito
+
+const updateCart= async (id)=>{
+  contentCart.innerHTML = "";
   //recorre el array y lo rellena con la info seleccionada
-  carrito.forEach((prod) => {
+  cart.forEach((prod) => {
     const divModal = document.createElement("div");
     divModal.className = "productoEnCarrito";
     divModal.innerHTML = `
-            <p>${prod.nombre}</p>
-            <p>Precio$${prod.precio}</p>
-            <p>Cantidad: <span id="cantidad">${prod.cantidad}</span></p>
-            <button onclick= "eliminarDelCarrito(${prod.id})" class="boton-eliminar"><i class="fas fa-trash-alt"></i></button>
+            <p class="nombreProdModal">${prod.name}</p>
+            <p>P.VTA $ ${prod.price}</p>
+            <p>Cantidad: <span id="cantidad">${prod.quantity}</span></p>
+            <button onclick= "removeFromModalCart(${prod.id})" class="removeModalBtn"><i class="fas fa-trash-alt"></i></button>
             `;
-    contenedorCarrito.appendChild(divModal);
+    contentCart.appendChild(divModal);
     //seteo item del local storage en el carrito
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    localStorage.setItem('cart', JSON.stringify(cart));
   });
 
-  contadorCarrito.innerText = carrito.length;
-  console.log(carrito);
-  precioTotal.innerText = carrito.reduce(
-    (acc, prod) => acc + prod.cantidad * prod.precio,
+
+  counterCart.innerText = cart.length;
+  console.log(cart);
+  totalPrice.innerText = cart.reduce(
+    (acc, prod) => acc + prod.quantity * prod.price,
     0
-  );
+  ).toFixed(2);
+}
+
+//eliminar del carrito
+const removeFromModalCart = (prodId) => {
+  const item = cart.find((prod) => prod.id === prodId);
+  const index = cart.indexOf(item);
+  cart.splice(index, 1);
+  updateCart();
+  console.log(cart);
 };
-
-
-
-
-
-

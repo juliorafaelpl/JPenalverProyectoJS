@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus+SC&display=swap" rel="stylesheet">
   <!-- Link al CSS -->
   <link rel="stylesheet" href="css/main.css">
-  <title>Dark Kitchen</title>
+  <!-- Title -->
+  <title>Market JS</title>
 </head>
-<>
+
   <header>
     <nav id="cabecera">
-      <h1 id="titulo" class="titulo">Dark Kitchen</h1>
+      <a href="index.html"><h1 id="titulo" class="titulo">Market JS</h1></a>
       <button id="boton-carrito"><i class="fas fa-shopping-cart"></i><span id="contadorCarrito">0</span></button>
     </nav>
     
@@ -30,23 +33,26 @@
     <div class="modal-carrito">
         <h3>Carrito</h3>
         <button id="carritoCerrar"><i class="fas fa-times-circle"></i></button>
-        <div id="carrito-contenedor">
+        <div id="contenedorCarrito">
           <!-- inyectable desde JavaScriot -->
         </div>
         <p class="precioProducto">Precio total: $<span id="precioTotal">0</span></p>
-        <button id="vaciar-carrito" class="boton-agregar">Vaciar carrito</button>
+        <button id="vaciarCarrito">Vaciar carrito</button>
     </div>
 </section>
 
 <footer id="pie">
-  <p>Desarrollado por Julio Peñalver</p>
+  <p>Market JS. Desarrollado por Julio Peñalver</p>
   <a href="https://github.com/juliorafaelpl" rel="noopener" target="_blank">Link a mi Portafolio</a>
 </footer>
 
+    <!-- Script Sweet Alet -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Sscriot Font Awsome -Para ïconos -->
+    <script src="https://kit.fontawesome.com/df59baf6b8.js" crossorigin="anonymous"></script>
+    <!-- Scripts Propios del Proyecto -->
     <script src="index.js"></script>
     <script defer src="modal.js"></script>
-    <script src="https://kit.fontawesome.com/df59baf6b8.js" crossorigin="anonymous"></script>
-
     
 </body>
 </html>

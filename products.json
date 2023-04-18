@@ -1,0 +1,75 @@
+
+[
+    {
+        "id": 1,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 2,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 3,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 4,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 5,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 6,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 7,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 8,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    },
+
+    {
+        "id": 9,
+        "category": "Hamburguesa",
+        "image": "./img/american-burger.png",
+        "title": "American Burger",
+        "price": 2100
+    }
+
+]
